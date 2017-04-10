@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        ul{
+            margin: 0px;
+            padding:0px;
+            height: 172px;
+            position: relative;
+        }
+        li{
+            overflow: hidden;
+            list-style: none;
+            width: 122px;
+            height: 172px;
+            float: left;
+            position: relative;
+        }
+        div{
+            position: absolute;
+            top:0;
+        }
+        img{
+            width: 120px;
+            height: 172px;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li>
+            <div><img src="0.JPG"/><img src="0.JPG"/></div>
+        </li>
+        <li>
+            <div><img src="0.JPG"/><img src="0.JPG"/></div>
+        </li>
+        <li>
+            <img src="colon.JPG"/>
+        </li>
+        <li>
+            <div><img src="0.JPG"/><img src="0.JPG"/></div>
+        </li>
+        <li>
+            <div><img src="0.JPG"/><img src="0.JPG"/></div>
+        </li>
+        <li>
+            <img src="colon.JPG"/>
+        </li>
+        <li>
+            <div><img src="0.JPG"/><img src="0.JPG"/></div>
+        </li>
+        <li>
+            <div><img src="0.JPG"/><img src="0.JPG"/></div>
+        </li>
+    </ul>
+
+    <script>
+        var divs=document.getElementsByTagName("div");
+        var imgs=document.querySelectorAll("li>img");
+        var mytime=getTime();
+        for(var i=0;i<mytime.length;i++){
+            divs[i].getElementsByTagName("img")[0].src=mytime[i]+".JPG";
+        }
+        setInterval(function () {
+            for(var i=0;i<imgs.length;i++){
+                imgs[i].src="colon.JPG";
+            }
+            setTimeout(function () {
+                for(var i=0;i<imgs.length;i++){
+                    imgs[i].src="colon1.JPG";
+                }
+            },500);
+            autoplay();
+        },1000);
+        function getTime() {
+            var date=new Date();
+            var h=date.getHours();
+            var m=date.getMinutes();
+            var s=date.getSeconds();
+            var time=toTwo(h)+toTwo(m)+toTwo(s);
+            return time;
+        }
+        function autoplay() {
+            var time1=getTime();
+            for(var i=0;i<time1.length;i++){
+                if(time1[i]!=mytime[i]){
+                    slied(i,time1);
+                }
+            }
+            mytime=time1;
+        }
+        function slied(n,time) {
+            var changeImgs=divs[n].getElementsByTagName("img");
+            changeImgs[1].src=time[n]+".JPG";
+            var mytop=parseInt(getComputedStyle(divs[n])["top"]);
+            var move=-172-mytop;
+            var now=new Date().getTime();
+            var interval=setInterval(function () {
+                var t=new Date().getTime()-now;
+                var value=mytop+move/400*t;
+                divs[n].style["top"]=value+"px";
+                if(t>=400){
+                    clearInterval(interval);
+                    changeImgs[0].src=time[n]+".JPG";
+                    divs[n].style.top="";
+                }
+            },30)
+        }
+        function toTwo(n) {
+            return n<10?"0"+n:""+n;
+        }
+
+    </script>
+</body>
+</html>
